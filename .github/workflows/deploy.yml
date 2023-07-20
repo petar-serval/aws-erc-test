@@ -16,5 +16,5 @@ jobs:
         with:
           access_key: ${{ secrets.ACCESS_KEY }}
           secret_key: ${{ secrets.SECRET_KEY }}
-          registry_endpoint: 445461593671.dkr.ecr.eu-west-2.amazonaws.com/ai8-jupiterlab
+          repository: ai8-jupiterlab
           image_tag: ${{ env.TAG }}

@@ -2,7 +2,7 @@ name: "Build and push image"
 description: "Builds and pushes an image to AWS ECR"
 
 inputs:
-  registry_endpoint:
+  repository:
     description: "Image registry repo e.g. 445461593671.dkr.ecr.eu-west-2.amazonaws.com/ai8-jupiterlab"
     required: true
   image_tag:
@@ -33,7 +33,7 @@ runs:
       shell: bash
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ inputs.registry_endpoint }}
+        ECR_REPOSITORY: ${{ inputs.repository }}
         IMAGE_TAG: ${{ inputs.image_tag }}
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
