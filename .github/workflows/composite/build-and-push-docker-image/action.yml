@@ -23,7 +23,7 @@ runs:
       with:
         aws-access-key-id: ${{ inputs.access_key }}
         aws-secret-access-key: ${{ inputs.secret_key }}
-        aws-region: us-west-2
+        aws-region: eu-west-2
 
     - name: Login to Amazon ECR
       id: login-ecr
