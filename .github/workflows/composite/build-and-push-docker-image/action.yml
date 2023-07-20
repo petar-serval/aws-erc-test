@@ -1,0 +1,40 @@
+name: "Build and push image"
+description: "Builds and pushes an image to AWS ECR"
+
+inputs:
+  registry_endpoint:
+    description: "Image registry repo e.g. 445461593671.dkr.ecr.eu-west-2.amazonaws.com/ai8-jupiterlab"
+    required: true
+  image_tag:
+    description: "Image tag"
+    required: true
+  access_key:
+    description: "Add desc"
+    required: true
+  secret_key:
+    description: "Add desc"
+    required: true
+  
+runs:
+  using: "composite"
+  steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ access_key }}
+        aws-secret-access-key: ${{ secret_key }}
+        aws-region: us-west-2
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      shell: bash
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ registry_endpoint }}
+        IMAGE_TAG: ${{ image_tag }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

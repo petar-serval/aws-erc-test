@@ -1,0 +1,20 @@
+name: Build and deploy backend QA
+
+on: [push]
+
+env:
+  TAG: ${{ github.sha }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ./.github/workflows/composite/build-and-push-docker-image
+        with:
+          access_key: ${{ secrets.ACCESS_KEY }}
+          secret_key: ${{ secrets.SECRET_KEY }}
+          registry_endpoint: 445461593671.dkr.ecr.eu-west-2.amazonaws.com/ai8-jupiterlab
+          image_tag: ${{ env.TAG }}
