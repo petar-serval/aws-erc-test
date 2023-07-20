@@ -21,8 +21,8 @@ runs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        aws-access-key-id: ${{ access_key }}
-        aws-secret-access-key: ${{ secret_key }}
+        aws-access-key-id: ${{ inputs.access_key }}
+        aws-secret-access-key: ${{ inputs.secret_key }}
         aws-region: us-west-2
 
     - name: Login to Amazon ECR
@@ -33,8 +33,8 @@ runs:
       shell: bash
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ registry_endpoint }}
-        IMAGE_TAG: ${{ image_tag }}
+        ECR_REPOSITORY: ${{ inputs.registry_endpoint }}
+        IMAGE_TAG: ${{ inputs.image_tag }}
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
