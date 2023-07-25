@@ -20,5 +20,5 @@ jobs:
           aws-region: eu-west-2
 
       - name: AWS test
-        run: /
+        run: |
           aws help
